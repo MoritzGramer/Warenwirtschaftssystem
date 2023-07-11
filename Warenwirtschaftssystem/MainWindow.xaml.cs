@@ -20,9 +20,36 @@ namespace Warenwirtschaftssystem
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        Warenanzeige warenAnzeige = new Warenanzeige();
+
         public MainWindow()
         {
             InitializeComponent();
+            button_Artikelanzeigen.Background = Brushes.Gray;
+        }
+
+        private void geheZuWareneingang(object sender, RoutedEventArgs e)
+        {
+            //Weiterleitung zur Seite für das Aufnehmen von Waren
+        }
+
+        private void geheZuWarenausgang(object sender, RoutedEventArgs e)
+        {
+            //Weiterleitung zur Seite für das managen von Waren, die das Lager verlassen
+        }
+
+        private void zeigeWarenAn(object sender, RoutedEventArgs e)
+        {
+            //Weiterleitung zur Seite für das Einsehen der Artikel im Lager
+            warenAnzeige.Owner = this;
+            warenAnzeige.Show();
+        }
+
+        private void legeNeuenArtikelAn(object sender, RoutedEventArgs e)
+        {
+            //Weiterleitung zur Seite für das Anlegen von neuen Artikeln
+
         }
     }
 }

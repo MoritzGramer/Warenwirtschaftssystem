@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Button Name="button_Artikelanlegen" Content="Artikel anlegen" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="170" Click="legeNeuenArtikelAn" Margin="28,303,0,0"/>
+        <Button Name="button_Warenausgang" Content="Warenausgang" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="170" Click="geheZuWarenausgang" Margin="28,235,0,0"/>
+        <Button Name="button_Wareneingang" Content="Wareneingang" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="170" Click="geheZuWareneingang" Margin="28,171,0,0"/>
+        <Button Name="button_Artikelanzeigen" Content="Artikelanzeige" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="170" Click="zeigeWarenAn" Margin="28,101,0,0"/>
 
     </Grid>
 </Window>
