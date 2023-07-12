@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,23 +16,24 @@ using System.Windows.Shapes;
 
 namespace Warenwirtschaftssystem
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
+   
 
-        Warenanzeige warenAnzeige = new Warenanzeige();
+public partial class MainWindow : Window
+    {
 
         public MainWindow()
         {
             InitializeComponent();
-            button_Artikelanzeigen.Background = Brushes.Gray;
+            Main.Content = new Artikelanzeige();
+            //button_Artikelanzeigen.Background = Brushes.Gray;
+
         }
 
         private void geheZuWareneingang(object sender, RoutedEventArgs e)
         {
             //Weiterleitung zur Seite für das Aufnehmen von Waren
+            Main.Content = new Wareneingang();
+            
         }
 
         private void geheZuWarenausgang(object sender, RoutedEventArgs e)
@@ -42,8 +44,8 @@ namespace Warenwirtschaftssystem
         private void zeigeWarenAn(object sender, RoutedEventArgs e)
         {
             //Weiterleitung zur Seite für das Einsehen der Artikel im Lager
-            warenAnzeige.Owner = this;
-            warenAnzeige.Show();
+            Main.Content = new Artikelanzeige();
+
         }
 
         private void legeNeuenArtikelAn(object sender, RoutedEventArgs e)
@@ -51,5 +53,11 @@ namespace Warenwirtschaftssystem
             //Weiterleitung zur Seite für das Anlegen von neuen Artikeln
 
         }
+
+        private void fehlerMeldung()
+        {
+
+        }
+
     }
 }
