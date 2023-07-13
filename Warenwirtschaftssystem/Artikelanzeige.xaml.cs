@@ -26,20 +26,32 @@ namespace Warenwirtschaftssystem
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            //artikelnummer wird initialisiert und mit Benutzereingabe deklarasiert
             string artikelnummer = eingabe_Artikelnummer.Text;
 
+            //Datenbankverbindung wird aufgebaut
             Datenbankverbindung connection = new Datenbankverbindung();
             connection.setConnection();
-            Artikel artikel = connection.gebeArtikelFürArtikelnummerZurück(artikelnummer);
-            labelArtikelname.Content = "Artikelnummer: " + artikel.Artikelnummer;
-            labelArtikelbeschreibung.Content = "Artikelbeschreibung: " + artikel.Artikelbeschreibung;
-            labelPreis.Content = "Artikelpreis: " + artikel.Preis;
-            labelPreiszuschlag.Content = "Preisaufschlag: " + artikel.Preisaufschlag;
-            labelFach.Content = "Fach: " + artikel.Fach;
-            labelRegal.Content = "Regal: "+artikel.Regal;
-           
 
+            //Objekt der Klasse Artikel wird angelegt und mit Werten aus der Datenbank befüllt
+            Artikel artikel = connection.gebeArtikelFürArtikelnummerZurück(artikelnummer);
+            
+            //es wurde ein Artikel mit der eingegeben Artikelnummer gefunden und zurückgegeben
+            if(artikel != null) {
+                labelArtikelname.Content = "Artikelnummer: " + artikel.Artikelnummer;
+                labelArtikelbeschreibung.Content = "Artikelbeschreibung: " + artikel.Artikelbeschreibung;
+                labelPreis.Content = "Artikelpreis: " + artikel.Preis;
+                labelPreiszuschlag.Content = "Preisaufschlag: " + artikel.Preisaufschlag;
+                labelFach.Content = "Fach: " + artikel.Fach;
+                labelRegal.Content = "Regal: " + artikel.Regal;
+            }
+
+            //es wurde kein Artikel mit der eingegeben Artikelnummer gefunden
+            else
+            {
+                erstelleFehlermeldung("Kein Artikel mit dieser Artikelnummer gefunden");
+            }
+            //Datenbankverbindung wird geschlossen
             connection.closeConnection();
         }
 
@@ -47,5 +59,15 @@ namespace Warenwirtschaftssystem
         {
 
         }
+        public void erstelleFehlermeldung(String text)
+        {
+            //das Hauptfenster(MainWindow.xaml.cs) wird in eine Variable gespeichert
+            Window window = Application.Current.MainWindow;
+
+            //Der Text des Fehlermeldelabes wird gändert
+            (window as MainWindow).label_Fehlermeldung.Content = text;
+        }
+
+
     }
 }

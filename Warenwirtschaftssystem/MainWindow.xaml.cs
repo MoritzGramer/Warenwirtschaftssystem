@@ -16,9 +16,9 @@ using System.Windows.Shapes;
 
 namespace Warenwirtschaftssystem
 {
-   
 
-public partial class MainWindow : Window
+
+    public partial class MainWindow : Window
     {
 
         public MainWindow()
@@ -33,31 +33,36 @@ public partial class MainWindow : Window
         {
             //Weiterleitung zur Seite für das Aufnehmen von Waren
             Main.Content = new Wareneingang();
-            
+            label_Fehlermeldung.Content = "";
+
         }
 
         private void geheZuWarenausgang(object sender, RoutedEventArgs e)
         {
             //Weiterleitung zur Seite für das managen von Waren, die das Lager verlassen
+            Main.Content = new Warenausgang();
+            label_Fehlermeldung.Content = "";
         }
 
         private void zeigeWarenAn(object sender, RoutedEventArgs e)
         {
             //Weiterleitung zur Seite für das Einsehen der Artikel im Lager
             Main.Content = new Artikelanzeige();
+            label_Fehlermeldung.Content = "";
 
         }
 
         private void legeNeuenArtikelAn(object sender, RoutedEventArgs e)
         {
             //Weiterleitung zur Seite für das Anlegen von neuen Artikeln
-
+            Main.Content = new Artikel_anlegen();
+            label_Fehlermeldung.Content = "";
         }
 
-        private void fehlerMeldung()
+        private void fehlerMeldung(String text)
         {
 
         }
-
+    
     }
 }

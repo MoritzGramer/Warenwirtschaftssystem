@@ -1,0 +1,26 @@
+﻿<Page x:Class="Warenwirtschaftssystem.Artikel_anlegen"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Warenwirtschaftssystem"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Artikel_anlegen">
+
+    <Grid>
+        <Button Content="Artikel anlegen" HorizontalAlignment="Left" Margin="528,383,0,0" VerticalAlignment="Top" Height="29" Width="107"/>
+
+        <TextBox Name="textbox_Artikelnummer" ToolTip="Artikelnummer" Text="Artikelnummer" HorizontalAlignment="Left" Margin="44,63,0,0" VerticalAlignment="Top" Width="116"/>
+        <TextBox Name="textbox_Preis" ToolTip="Preis" Text="Preis" HorizontalAlignment="Left" Margin="189,63,0,0" VerticalAlignment="Top" Width="116"/>
+        <TextBox Name="labelPreis" Text="Preis: " HorizontalAlignment="Left" Margin="44,169,0,0" VerticalAlignment="Top" Width="116"/>
+        <TextBox Name="labelPreiszuschlag" Text="Preiszuschlag: " HorizontalAlignment="Left" Margin="209,169,0,0" VerticalAlignment="Top" Width="116"/>
+        <TextBox Name="labelRegal" Text="Regal: " HorizontalAlignment="Left" Margin="44,271,0,0" VerticalAlignment="Top" Width="116"/>
+        <TextBox Name="labelFach" Text="Fach: " HorizontalAlignment="Left" Margin="209,271,0,0" VerticalAlignment="Top" Width="116"/>
+
+        <TextBox Name="labelArtikelbeschreibung" Text="Artikelbeschreibung:" HorizontalAlignment="Left" Margin="44,99,0,0" VerticalAlignment="Top" Width="412" Height="48"/>
+
+
+
+    </Grid>
+</Page>

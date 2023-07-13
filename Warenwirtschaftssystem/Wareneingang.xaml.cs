@@ -27,9 +27,16 @@ namespace Warenwirtschaftssystem
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //Die artikelNummer initalisiert und mit der Benutzereingabe aus der Textbox deklarasiert
             string artikelNummer = textbox_Artikelnummer.Text;
+
+            //Die Anzahl der eingegangen Stücke wird initialisiert und mit der Benutzereingabe aus der Textbox deklarasiert
             string eingegangeStückzahl_string = textbox_Stückzahl.Text;
+
+            
             int aktuelleStückzahl = 0;
+
+            
             int neueStückzahl;
 
             //Quelle https://stackoverflow.com/questions/894263/identify-if-a-string-is-a-number visited: 12.07.23
@@ -44,7 +51,7 @@ namespace Warenwirtschaftssystem
                 connection.setConnection();
                 aktuelleStückzahl = int.Parse(connection.getStückzahlVonDatenbankFürArtikelnummer(artikelNummer));
 
-                //addieren die Stückzahlen
+                //addieren die hinzugefügten Stücke zu den Stückzahlen
                 neueStückzahl = aktuelleStückzahl + int.Parse(eingegangeStückzahl_string);
                 connection.setztNeueStückzahlFürArtikelnummer(artikelNummer, neueStückzahl);
 
@@ -54,11 +61,22 @@ namespace Warenwirtschaftssystem
             //eingegeben Stückzahl ist KEINE Zahl
             else
             {
-
+                
             }
 
             
 
         }
+        public void erstelleFehlermeldung(String text)
+        {
+            //das Hauptfenster(MainWindow.xaml.cs) wird in eine Variable gespeichert
+            Window window = Application.Current.MainWindow;
+
+            //Der Text des Fehlermeldelabes wird gändert
+            (window as MainWindow).label_Fehlermeldung.Content = text;
+        }
+
+
+
     }
 }

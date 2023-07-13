@@ -33,7 +33,7 @@ namespace Warenwirtschaftssystem
             }
             catch (Exception e)
             {
-
+                
             }
             //gibt falls zurück, falls keine Datenbankverbindung aufgebaut werden konnte
             return false;
@@ -51,8 +51,9 @@ namespace Warenwirtschaftssystem
 
         public Artikel gebeArtikelFürArtikelnummerZurück(string input)
         {
-            string output = "";
+            if (this.checkConnection() == false){ return null; }  
 
+            string output = "";
             
             string commandString = "SELECT * FROM artikel WHERE artikelnummer LIKE "+input+ " AND Stückzahl > 0"; 
             MySqlCommand command = new MySqlCommand(commandString, this.connection);
@@ -81,11 +82,12 @@ namespace Warenwirtschaftssystem
         {
             string output = "";
 
+            //wenn keine Verbindung mit der Datenbank besteht 
+            if(this.checkConnection() == false) { return ""; }
+
             string commandString = "SELECT Stückzahl FROM artikel Where Artikelnummer LIKE " + artikelNummer+"";
             MySqlCommand command = new MySqlCommand(commandString, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
-
-            
 
             while (reader.Read() && reader.HasRows)
             {
