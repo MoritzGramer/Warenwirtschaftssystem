@@ -33,9 +33,7 @@ namespace Warenwirtschaftssystem
             //Die Anzahl der eingegangen Stücke wird initialisiert und mit der Benutzereingabe aus der Textbox deklarasiert
             string eingegangeStückzahl_string = textbox_Stückzahl.Text;
 
-            
             int aktuelleStückzahl = 0;
-
             
             int neueStückzahl;
 
@@ -43,40 +41,46 @@ namespace Warenwirtschaftssystem
             bool isNumeric = int.TryParse(eingegangeStückzahl_string, out int num);
             //Quelle Ende
 
+            //erstelle 
+            Feedback feedback = new Feedback();
+
             //eingegeben Stückzahl ist eine Zahl
             if (isNumeric)
             { 
 
                 Datenbankverbindung connection = new Datenbankverbindung();
-                connection.setConnection();
-                aktuelleStückzahl = int.Parse(connection.getStückzahlVonDatenbankFürArtikelnummer(artikelNummer));
+                if (connection.setConnection())
+                {
+                    string lagerStückzahl_string = connection.getStückzahlVonDatenbankFürArtikelnummer(artikelNummer);
+                    if (lagerStückzahl_string != "")
+                    {
+                        aktuelleStückzahl = int.Parse(lagerStückzahl_string);
 
-                //addieren die hinzugefügten Stücke zu den Stückzahlen
-                neueStückzahl = aktuelleStückzahl + int.Parse(eingegangeStückzahl_string);
-                connection.setztNeueStückzahlFürArtikelnummer(artikelNummer, neueStückzahl);
+                        //addieren die hinzugefügten Stücke zu den Stückzahlen
+                        neueStückzahl = aktuelleStückzahl + int.Parse(eingegangeStückzahl_string);
+                        connection.setztNeueStückzahlFürArtikelnummer(artikelNummer, neueStückzahl);
+                        feedback.erstelleErfolgsmeldung("Aktion erfolgreich!");
+                    }
+                    else
+                    {
+                        feedback.erstelleFehlermeldung("Keine gültige Artikelnummer eingegeben");
+                    }
 
-                connection.closeConnection();
+                    connection.closeConnection();
+                }
+                else
+                {
+                    feedback.erstelleFehlermeldung("Es konnte keine Datenbankverbindung aufgebaut werden!");
+                }
+
+                
             }
 
             //eingegeben Stückzahl ist KEINE Zahl
             else
             {
-                
+                feedback.erstelleFehlermeldung("Bitte geben sie eine Zahl als Stückzahl ein");
             }
-
-            
-
         }
-        public void erstelleFehlermeldung(String text)
-        {
-            //das Hauptfenster(MainWindow.xaml.cs) wird in eine Variable gespeichert
-            Window window = Application.Current.MainWindow;
-
-            //Der Text des Fehlermeldelabes wird gändert
-            (window as MainWindow).label_Fehlermeldung.Content = text;
-        }
-
-
-
     }
 }

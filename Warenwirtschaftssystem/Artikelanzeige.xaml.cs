@@ -31,43 +31,49 @@ namespace Warenwirtschaftssystem
 
             //Datenbankverbindung wird aufgebaut
             Datenbankverbindung connection = new Datenbankverbindung();
-            connection.setConnection();
 
-            //Objekt der Klasse Artikel wird angelegt und mit Werten aus der Datenbank befüllt
-            Artikel artikel = connection.gebeArtikelFürArtikelnummerZurück(artikelnummer);
-            
-            //es wurde ein Artikel mit der eingegeben Artikelnummer gefunden und zurückgegeben
-            if(artikel != null) {
-                labelArtikelname.Content = "Artikelnummer: " + artikel.Artikelnummer;
-                labelArtikelbeschreibung.Content = "Artikelbeschreibung: " + artikel.Artikelbeschreibung;
-                labelPreis.Content = "Artikelpreis: " + artikel.Preis;
-                labelPreiszuschlag.Content = "Preisaufschlag: " + artikel.Preisaufschlag;
-                labelFach.Content = "Fach: " + artikel.Fach;
-                labelRegal.Content = "Regal: " + artikel.Regal;
+            //Klasse Feedback wird initialisiert
+            Feedback feedback = new Feedback();
+
+
+            //die Funktion gibt bei erfolgreichem Aufbau der Datenbankverbindung true zürück
+            if (connection.setConnection())
+            {
+                //Objekt der Klasse Artikel wird angelegt und mit Werten aus der Datenbank befüllt
+                Artikel artikel = connection.gebeArtikelFürArtikelnummerZurück(artikelnummer);
+
+                //es wurde ein Artikel mit der eingegeben Artikelnummer gefunden und zurückgegeben
+                if (artikel != null)
+                {
+                    labelArtikelname.Content = "Artikelnummer: " + artikel.Artikelnummer;
+                    labelArtikelbeschreibung.Content = "Artikelbeschreibung: " + artikel.Artikelbeschreibung;
+                    labelPreis.Content = "Artikelpreis: " + artikel.Preis;
+                    labelPreiszuschlag.Content = "Preisaufschlag: " + artikel.Preisaufschlag;
+                    labelFach.Content = "Fach: " + artikel.Fach;
+                    labelRegal.Content = "Regal: " + artikel.Regal;
+
+                    feedback.erstelleErfolgsmeldung("Ausführen Erfolgreich!");
+                }
+
+                //es wurde kein Artikel mit der eingegeben Artikelnummer gefunden
+                else
+                {
+                    feedback.erstelleFehlermeldung("Kein Artikel mit dieser Artikelnummer gefunden");
+                }
+                //Datenbankverbindung wird geschlossen
+                connection.closeConnection();
             }
 
-            //es wurde kein Artikel mit der eingegeben Artikelnummer gefunden
+            //es konnte keine Verbindung zur Datenbank aufgestellt werden
             else
             {
-                erstelleFehlermeldung("Kein Artikel mit dieser Artikelnummer gefunden");
+                feedback.erstelleFehlermeldung("Es konnte keine Datenbankverbindung aufgebaut werden!");
             }
-            //Datenbankverbindung wird geschlossen
-            connection.closeConnection();
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
-        public void erstelleFehlermeldung(String text)
-        {
-            //das Hauptfenster(MainWindow.xaml.cs) wird in eine Variable gespeichert
-            Window window = Application.Current.MainWindow;
-
-            //Der Text des Fehlermeldelabes wird gändert
-            (window as MainWindow).label_Fehlermeldung.Content = text;
-        }
-
-
     }
 }

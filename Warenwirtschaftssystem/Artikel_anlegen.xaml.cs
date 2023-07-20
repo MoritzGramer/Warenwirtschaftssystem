@@ -24,5 +24,25 @@ namespace Warenwirtschaftssystem
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            string artikelnummer = textbox_Artikelnummer.Text;
+            string preis = textbox_Preisa.Text;
+            string artikelbeschreibung = textbox_Artikelbeschreibung.Text;
+            string preisaufschlag = textbox_Preiszuschlag.Text;
+            string regal = textbox_Regal.Text;
+            string fach = textbox_Regal.Text;
+            string stückzahl = textbox_Stückzahl.Text;
+
+            string lagerId = "1";
+
+            Datenbankverbindung verbindung = new Datenbankverbindung();
+
+            verbindung.setConnection();
+            verbindung.fügeNeuenArtikelZurDatenbank(artikelnummer, artikelbeschreibung, preis, stückzahl, preisaufschlag, lagerId, regal, fach, false);
+            verbindung.closeConnection();
+        }
     }
 }

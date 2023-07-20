@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,26 @@ namespace Warenwirtschaftssystem
 {
     class Datenbankverbindung
     {
-        public MySqlConnection connection;
+        //Verbindung zur SQL Datenbank in einer Variable
+        private  MySqlConnection connection;
+
+        //Verbindungsstring, der alle Informationen erhält, um die Datenbankverbindung herzustellen
         private string connectionString = "server=localhost;user=root;database=lagerdatenbank;port=3306;password=";
         
+
+        //getter, der die Verbindung zurückgibt
         public MySqlConnection getConnection()
         {
+            //gibt die Datenbankverbindung zurück
             return this.connection;
         }
 
+        //Mehtode, welche versucht eine Datenbankverbindung aufzubauen
         public  bool setConnection()
         {
             try
             {
-                //erstellt die Datenbankverbindung
+                //erstellt die Datenbankverbindung mit den Informationen aus dem connectionString
                 this.connection = new MySqlConnection(connectionString);
 
                 //öffnet die Verbindung
@@ -49,20 +57,30 @@ namespace Warenwirtschaftssystem
             return false;
         }
 
+
+        //Methode, welche für die übergebene Artikelnummer die Artikelinformationen als Objekt der Klasse Artikel zurückgibt
         public Artikel gebeArtikelFürArtikelnummerZurück(string input)
         {
-            if (this.checkConnection() == false){ return null; }  
-
-            string output = "";
-            
-            string commandString = "SELECT * FROM artikel WHERE artikelnummer LIKE "+input+ " AND Stückzahl > 0"; 
-            MySqlCommand command = new MySqlCommand(commandString, this.connection);
-            MySqlDataReader reader = command.ExecuteReader();
-            List<string> alleDaten = new List<string>();
+            //eine neues Objekt der Klasse Artikel wird erstellt
             Artikel artikel = new Artikel();
 
+            //wenn keine Datenbankverbindung besteht wird ein leerer Artikel zurück gesendet
+            if (this.checkConnection() == false){ return artikel; }  
+            
+            //SQL Befehl, welcher ensprechend der übergebene Artikelnummer die Artikelinformationen abfrage. Die Stückzahl des Artikels muss größer 0 sein
+            string commandString = "SELECT * FROM artikel WHERE artikelnummer LIKE "+input+ " AND Stückzahl > 0"; 
+
+            //der string befel wird in einen SQL Command umgewandelt
+            MySqlCommand command = new MySqlCommand(commandString, this.connection);
+
+            //der SQl Befehl wird ausgeführt und die Ergebnisse werden in dem Object reader gespeichert
+            MySqlDataReader reader = command.ExecuteReader();
+
+            //While Schleife, die durch die Informationen im reader iteriert
             while (reader.Read() && reader.HasRows)
             {
+                //Die Artikelinformationen werden aus der Datenbank ausgelesen und in dem Objekt der Klasse Artikel gespeichert
+
                 artikel.Artikelnummer = reader.GetString(0);
                 artikel.Artikelbeschreibung = reader.GetString(1);
                 artikel.Preis = reader.GetString(2);
@@ -73,31 +91,55 @@ namespace Warenwirtschaftssystem
                 artikel.Fach = reader.GetInt32(7);
                 artikel.Datum1 = reader.GetString(8);  
             }
-
+            //der Daten
             reader.Close();
+
+            //das Objekt artikel mit den Artikelinformationen wird zurückgegeben
             return artikel;
         }
         
+
+        //Methode, welche für die übergeben Artikelnummer die Stückzahl des Artikels anzeigt
         public string getStückzahlVonDatenbankFürArtikelnummer(string artikelNummer)
         {
             string output = "";
 
+
             //wenn keine Verbindung mit der Datenbank besteht 
-            if(this.checkConnection() == false) { return ""; }
-
-            string commandString = "SELECT Stückzahl FROM artikel Where Artikelnummer LIKE " + artikelNummer+"";
-            MySqlCommand command = new MySqlCommand(commandString, this.connection);
-            MySqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read() && reader.HasRows)
-            {
-                output += reader.GetValue(0);
+            if (this.checkConnection() == false) {
+                output = "";
             }
-            reader.Close();
-            
+            else
+            {
+                //wenn die eingegben Artikelnummer nicht der String 'Artikelnummer'
+                if (!artikelNummer.Equals("Artikelnummer"))
+                {
+                    //String von einem SQL Befelh. der Befehl holt sich für eine bestimmt Artikelnummer die Stückzahl von der Datenbank
+                    string commandString = "SELECT Stückzahl FROM artikel Where Artikelnummer LIKE " + artikelNummer + "";
+
+                    //SQl Befelh umgewandelt in ein MySQLCommand
+                    MySqlCommand command = new MySqlCommand(commandString, this.connection);
+
+                    //der SQL Befehl wird ausgeführt und die Informationen werden
+                    MySqlDataReader reader = command.ExecuteReader();
+
+                    //solange sich weitere Informationen in dem Objekt reader befinden
+                    while (reader.Read() && reader.HasRows)
+                    {
+                        //die Stückzahl wird zu dem string output addiert
+                        output += reader.GetValue(0);
+                    }
+                    //der reader wird geschlossen
+                    reader.Close();
+                }
+           
+            }
+            //der Ergebniss String wird zurückgegeben
             return output;
         }
 
+
+        //Methode, welche für die übergebene Artikelnummer und Stückzahl die Stückzahl des Artikels in der Datenbank ändert
         public bool setztNeueStückzahlFürArtikelnummer(string artikelnummer, int stückzahl)
         {
             string commandString = "UPDATE artikel SET Stückzahl = " + stückzahl + " Where Artikelnummer LIKE " + artikelnummer;
@@ -108,10 +150,37 @@ namespace Warenwirtschaftssystem
             return false;
         }
 
-        public void closeConnection()
+
+        //Methode, welche ein neuen Artikel mit den übergebenen Informationen erstellt
+        public bool fügeNeuenArtikelZurDatenbank(string artikelNummer, string artikelbeschreibung, string preis, string stückzahl, string preisaufschlag, string lager_id, string regal, string fach, Boolean reserviert)
         {
-            connection.Close();
+            //SQl Befehl, welcher einen neuen Eintrag in der Tabelle Artikel erstellt. Die Informationen dafür werden vom Benutzer eingegeben
+            string commandString = "INSERT INTO artikel(Artikelnummer, Artikelbeschreibung,Stückzahl, preis, Preisaufschlag, Lager_id, regal, fach, Eingangsatum, reserviert)" +
+                                   " VALUES( "+artikelNummer+ ", '"+ artikelbeschreibung + "', " + stückzahl +", "+ preis + ", " + preisaufschlag + ", " + lager_id + ", " + regal + ", " + fach + ", CURRENT_TIMESTAMP" + ", " + 0 +")";
+            MySqlCommand command = new MySqlCommand(commandString, this.connection);
+
+            try
+            {
+                //der reader führt den Befehl aus
+                MySqlDataReader reader = command.ExecuteReader();
+
+                //der Befehl wurde erfolgreich durchgeführt und true wird zurückgegeben
+                return true;
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            //der Vorgang lief nicht erfolgreich ab und false wird zurückgegeben
+            return false;
         }
 
+        //Methode, welche die Verbindug zur Datenbank beendet
+        public void closeConnection()
+        {
+            //Die Datenbankverbindung wird geschlossen
+            connection.Close();
+        }
     }
 }

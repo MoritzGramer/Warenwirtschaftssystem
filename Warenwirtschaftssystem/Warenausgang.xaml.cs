@@ -37,47 +37,44 @@ namespace Warenwirtschaftssystem
 
             int aktuelleStückzahl = 0;
 
-          
-
             bool isNumeric = int.TryParse(ausgehendeStückzahl_String, out int num);
+            Feedback feedback = new Feedback();
 
             //die eingegbene Stückzahl ist keine Zahl
             if (isNumeric== false)
             {
-                erstelleFehlermeldung("Bitte geben sie eine gültige Zahl als Stückzahl ein!");
+                feedback.erstelleFehlermeldung("Bitte geben sie eine gültige Zahl als Stückzahl ein!");
             }
             else{
                 Datenbankverbindung connection = new Datenbankverbindung();
-                connection.setConnection();
 
-                //die aktuelle Stückzahl des Artikels wird abgefragt und in einer Variable gespeichert
-                aktuelleStückzahl = int.Parse(connection.getStückzahlVonDatenbankFürArtikelnummer(artikelNummer));
 
-                //die Anzahl der ausgehenden Artikel ist kleiner oder gleich groß wie die Anzahl der verfügbaren Artikel
-                if(aktuelleStückzahl - int.Parse(ausgehendeStückzahl_String) > 0)
+                if (connection.setConnection())
                 {
-                    //abziehen der Stückzahlen
-                    int neueStückzahl = aktuelleStückzahl - int.Parse(ausgehendeStückzahl_String);
+                    //die aktuelle Stückzahl des Artikels wird abgefragt und in einer Variable gespeichert
+                    aktuelleStückzahl = int.Parse(connection.getStückzahlVonDatenbankFürArtikelnummer(artikelNummer));
 
-                    //updaten der Stückzahl in der Datenbank
-                    connection.setztNeueStückzahlFürArtikelnummer(artikelNummer, neueStückzahl);
+                    //die Anzahl der ausgehenden Artikel ist kleiner oder gleich groß wie die Anzahl der verfügbaren Artikel
+                    if (aktuelleStückzahl - int.Parse(ausgehendeStückzahl_String) > 0)
+                    {
+                        //abziehen der Stückzahlen
+                        int neueStückzahl = aktuelleStückzahl - int.Parse(ausgehendeStückzahl_String);
+
+                        //updaten der Stückzahl in der Datenbank
+                        connection.setztNeueStückzahlFürArtikelnummer(artikelNummer, neueStückzahl);
+                    }
+                    //Es wird versucht mehr Waren rauszugeben, als im Lager sind
+                    else
+                    {
+                        //Fehlermeldung anzeigen
+                        feedback.erstelleFehlermeldung("So viele Artikel sind nicht auf Lager!");
+                    }
                 }
-                //Es wird versucht mehr Waren rauszugeben, als im Lager sind
                 else
                 {
-                    //Fehlermeldung anzeigen
-                    erstelleFehlermeldung("So viele Artikel sind nicht auf Lager!");
+                    feedback.erstelleFehlermeldung("Es konnte keine Datenbankverbindung aufgebaut werden!");
                 }
             }
-        }
-
-        public void erstelleFehlermeldung(String text)
-        {
-            //das Hauptfenster(MainWindow.xaml.cs) wird in eine Variable gespeichert
-            Window window = Application.Current.MainWindow;
-
-            //Der Text des Fehlermeldelabes wird gändert
-            (window as MainWindow).label_Fehlermeldung.Content = text;
         }
     }
 }

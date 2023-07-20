@@ -17,37 +17,36 @@ using System.Windows.Shapes;
 namespace Warenwirtschaftssystem
 {
 
-
     public partial class MainWindow : Window
     {
 
         public MainWindow()
         {
             InitializeComponent();
-            Main.Content = new Artikelanzeige();
+            frame_Content.Content = new Artikelanzeige();
             //button_Artikelanzeigen.Background = Brushes.Gray;
 
         }
 
+        //Läd eine Unterseite in den Content Frame der Hauptseite
         private void geheZuWareneingang(object sender, RoutedEventArgs e)
         {
             //Weiterleitung zur Seite für das Aufnehmen von Waren
-            Main.Content = new Wareneingang();
+            frame_Content.Content = new Wareneingang();
             label_Fehlermeldung.Content = "";
-
         }
 
         private void geheZuWarenausgang(object sender, RoutedEventArgs e)
         {
             //Weiterleitung zur Seite für das managen von Waren, die das Lager verlassen
-            Main.Content = new Warenausgang();
+            frame_Content.Content = new Warenausgang();
             label_Fehlermeldung.Content = "";
         }
 
         private void zeigeWarenAn(object sender, RoutedEventArgs e)
         {
             //Weiterleitung zur Seite für das Einsehen der Artikel im Lager
-            Main.Content = new Artikelanzeige();
+            frame_Content.Content = new Artikelanzeige();
             label_Fehlermeldung.Content = "";
 
         }
@@ -55,7 +54,7 @@ namespace Warenwirtschaftssystem
         private void legeNeuenArtikelAn(object sender, RoutedEventArgs e)
         {
             //Weiterleitung zur Seite für das Anlegen von neuen Artikeln
-            Main.Content = new Artikel_anlegen();
+            frame_Content.Content = new Artikel_anlegen();
             label_Fehlermeldung.Content = "";
         }
 
