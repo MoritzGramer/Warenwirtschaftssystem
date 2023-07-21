@@ -57,7 +57,6 @@ namespace Warenwirtschaftssystem
             return false;
         }
 
-
         //Methode, welche für die übergebene Artikelnummer die Artikelinformationen als Objekt der Klasse Artikel zurückgibt
         public Artikel gebeArtikelFürArtikelnummerZurück(string input)
         {
@@ -67,8 +66,10 @@ namespace Warenwirtschaftssystem
             //wenn keine Datenbankverbindung besteht wird ein leerer Artikel zurück gesendet
             if (this.checkConnection() == false){ return artikel; }  
             
-            //SQL Befehl, welcher ensprechend der übergebene Artikelnummer die Artikelinformationen abfrage. Die Stückzahl des Artikels muss größer 0 sein
-            string commandString = "SELECT * FROM artikel WHERE artikelnummer LIKE "+input+ " AND Stückzahl > 0"; 
+            //SQL Befehl, der den Lagerbestand eines Artikels anzeigt
+            //Die Lagerbestand des Artikels muss größer 0 sein
+            string commandString = "SELECT * FROM artikel " +
+                "WHERE artikelnummer LIKE "+input+ " AND Lagerbestand > 0"; 
 
             //der string befel wird in einen SQL Command umgewandelt
             MySqlCommand command = new MySqlCommand(commandString, this.connection);
@@ -79,8 +80,8 @@ namespace Warenwirtschaftssystem
             //While Schleife, die durch die Informationen im reader iteriert
             while (reader.Read() && reader.HasRows)
             {
-                //Die Artikelinformationen werden aus der Datenbank ausgelesen und in dem Objekt der Klasse Artikel gespeichert
-
+                //Die Artikelinformationen werden aus der Datenbank ausgelesen
+                //und in einem Objekt der Klasse Artikel gespeichert
                 artikel.Artikelnummer = reader.GetString(0);
                 artikel.Artikelbeschreibung = reader.GetString(1);
                 artikel.Preis = reader.GetString(2);
@@ -90,6 +91,7 @@ namespace Warenwirtschaftssystem
                 artikel.Regal = reader.GetInt32(6);
                 artikel.Fach = reader.GetInt32(7);
                 artikel.Datum1 = reader.GetString(8);  
+                artikel.Reserviert = reader.GetString(9);
             }
             //der Daten
             reader.Close();
@@ -97,13 +99,11 @@ namespace Warenwirtschaftssystem
             //das Objekt artikel mit den Artikelinformationen wird zurückgegeben
             return artikel;
         }
-        
 
         //Methode, welche für die übergeben Artikelnummer die Stückzahl des Artikels anzeigt
-        public string getStückzahlVonDatenbankFürArtikelnummer(string artikelNummer)
+        public string getLagerbestandVonDatenbankFürArtikelnummer(string artikelNummer)
         {
             string output = "";
-
 
             //wenn keine Verbindung mit der Datenbank besteht 
             if (this.checkConnection() == false) {
@@ -114,10 +114,12 @@ namespace Warenwirtschaftssystem
                 //wenn die eingegben Artikelnummer nicht der String 'Artikelnummer'
                 if (!artikelNummer.Equals("Artikelnummer"))
                 {
-                    //String von einem SQL Befelh. der Befehl holt sich für eine bestimmt Artikelnummer die Stückzahl von der Datenbank
-                    string commandString = "SELECT Stückzahl FROM artikel Where Artikelnummer LIKE " + artikelNummer + "";
+                    //SQL Befehl, der sich für eine bestimmte Artikelnummer
+                    //den Lagerbestand von der Datenbank holt
+                    string commandString = "SELECT Lagerbestand FROM artikel" +
+                        " Where Artikelnummer LIKE " + artikelNummer + "";
 
-                    //SQl Befelh umgewandelt in ein MySQLCommand
+                    //SQl string Befehl wird umgewandelt in ein MySQLCommand
                     MySqlCommand command = new MySqlCommand(commandString, this.connection);
 
                     //der SQL Befehl wird ausgeführt und die Informationen werden
@@ -140,10 +142,17 @@ namespace Warenwirtschaftssystem
 
 
         //Methode, welche für die übergebene Artikelnummer und Stückzahl die Stückzahl des Artikels in der Datenbank ändert
-        public bool setztNeueStückzahlFürArtikelnummer(string artikelnummer, int stückzahl)
+        public bool setztNeuenLagerbestandFürArtikelnummer(string artikelnummer, int stückzahl)
         {
-            string commandString = "UPDATE artikel SET Stückzahl = " + stückzahl + " Where Artikelnummer LIKE " + artikelnummer;
+            //String, SQL Befehl, welcher den Lagerbestand in der Datenbank
+            //für eine bestimmte Artikelnummer aktualisiert
+            string commandString = "UPDATE artikel SET Lagerbestand = " + stückzahl 
+                + " Where Artikelnummer LIKE " + artikelnummer;
+
+
             MySqlCommand command = new MySqlCommand(commandString, this.connection);
+
+            //der SQL Befehl wird ausgeführt
             MySqlDataReader reader = command.ExecuteReader();
             reader.Close();
 
@@ -152,13 +161,17 @@ namespace Warenwirtschaftssystem
 
 
         //Methode, welche ein neuen Artikel mit den übergebenen Informationen erstellt
-        public bool fügeNeuenArtikelZurDatenbank(string artikelNummer, string artikelbeschreibung, string preis, string stückzahl, string preisaufschlag, string lager_id, string regal, string fach, Boolean reserviert)
+        public bool fügeNeuenArtikelZurDatenbank(string artikelNummer, string artikelbeschreibung, string preis, string stückzahl, string preisaufschlag, string lager_id, string regal, string fach, string reserviert)
         {
-            //SQl Befehl, welcher einen neuen Eintrag in der Tabelle Artikel erstellt. Die Informationen dafür werden vom Benutzer eingegeben
-            string commandString = "INSERT INTO artikel(Artikelnummer, Artikelbeschreibung,Stückzahl, preis, Preisaufschlag, Lager_id, regal, fach, Eingangsatum, reserviert)" +
-                                   " VALUES( "+artikelNummer+ ", '"+ artikelbeschreibung + "', " + stückzahl +", "+ preis + ", " + preisaufschlag + ", " + lager_id + ", " + regal + ", " + fach + ", CURRENT_TIMESTAMP" + ", " + 0 +")";
-            MySqlCommand command = new MySqlCommand(commandString, this.connection);
+            //SQl Befehl, welcher einen neuen Eintrag in der Tabelle Artikel erstellt.
+            string commandString = "INSERT INTO artikel(Artikelnummer, Artikelbeschreibung," +
+                "Lagerbestand, preis, Preisaufschlag, Lager_id, regal, fach, Eingangsatum," +
+                " reserviert)" +
+                " VALUES( "+artikelNummer+ ", '"+ artikelbeschreibung + "', " + stückzahl +
+                ", " + preis + ", " + preisaufschlag + ", " + lager_id + ", " + regal +
+                ", " + fach + ", CURRENT_TIMESTAMP" + ", '" + reserviert+"')";
 
+            MySqlCommand command = new MySqlCommand(commandString, this.connection);
             try
             {
                 //der reader führt den Befehl aus

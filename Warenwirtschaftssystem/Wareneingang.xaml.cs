@@ -51,14 +51,14 @@ namespace Warenwirtschaftssystem
                 Datenbankverbindung connection = new Datenbankverbindung();
                 if (connection.setConnection())
                 {
-                    string lagerStückzahl_string = connection.getStückzahlVonDatenbankFürArtikelnummer(artikelNummer);
+                    string lagerStückzahl_string = connection.getLagerbestandVonDatenbankFürArtikelnummer(artikelNummer);
                     if (lagerStückzahl_string != "")
                     {
                         aktuelleStückzahl = int.Parse(lagerStückzahl_string);
 
                         //addieren die hinzugefügten Stücke zu den Stückzahlen
                         neueStückzahl = aktuelleStückzahl + int.Parse(eingegangeStückzahl_string);
-                        connection.setztNeueStückzahlFürArtikelnummer(artikelNummer, neueStückzahl);
+                        connection.setztNeuenLagerbestandFürArtikelnummer(artikelNummer, neueStückzahl);
                         feedback.erstelleErfolgsmeldung("Aktion erfolgreich!");
                     }
                     else

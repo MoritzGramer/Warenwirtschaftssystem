@@ -11,16 +11,15 @@
     <Grid>
         <Button Content="Artikel anlegen" HorizontalAlignment="Left" Margin="349,309,0,0" VerticalAlignment="Top" Height="29" Width="107" Click="Button_Click"/>
 
-        <TextBox Name="textbox_Artikelnummer" ToolTip="Artikelnummer" Text="Artikelnummer" HorizontalAlignment="Left" Margin="44,63,0,0" VerticalAlignment="Top" Width="116"/>
+        <TextBox Name="textbox_Artikelnummer" ToolTip="Artikelnummer" Text="Artikelnummer" HorizontalAlignment="Left" Margin="44,63,0,0" VerticalAlignment="Top" Width="116" MaxLength="15"/>
         <TextBox Name="textbox_Stückzahl" ToolTip="Stückzahl" Text="Stückzahl" HorizontalAlignment="Left" Margin="189,63,0,0" VerticalAlignment="Top" Width="116"/>
         <TextBox Name="textbox_Preisa" Text="Preis: " HorizontalAlignment="Left" Margin="44,169,0,0" VerticalAlignment="Top" Width="116"/>
         <TextBox Name="textbox_Preiszuschlag" Text="Preiszuschlag: " HorizontalAlignment="Left" Margin="209,169,0,0" VerticalAlignment="Top" Width="116"/>
-        <TextBox Name="textbox_Regal" Text="Regal: " HorizontalAlignment="Left" Margin="44,271,0,0" VerticalAlignment="Top" Width="116"/>
-        <TextBox Name="textbox_lFach" Text="Fach: " HorizontalAlignment="Left" Margin="209,271,0,0" VerticalAlignment="Top" Width="116"/>
+        <TextBox x:Name="textbox_Regal" Text="Regal: " HorizontalAlignment="Left" Margin="44,271,0,0" VerticalAlignment="Top" Width="116" TextChanged="textbox_Regal_TextChanged"/>
+        <TextBox Name="textbox_lFach" Text="Fach: " HorizontalAlignment="Left" Margin="209,271,0,0" VerticalAlignment="Top" Width="116" InputScope="Number"/>
 
-        <TextBox Name="textbox_Artikelbeschreibung" Text="Artikelbeschreibung:" HorizontalAlignment="Left" Margin="44,99,0,0" VerticalAlignment="Top" Width="412" Height="48"/>
-
-
+        <TextBox Name="textbox_Artikelbeschreibung" Text="Artikelbeschreibung:" HorizontalAlignment="Left" Margin="44,99,0,0" VerticalAlignment="Top" Width="412" Height="48" MaxLength="255"/>
+        <CheckBox Name="checkBoxReserviert" Content="Reserviert" HorizontalAlignment="Left" Margin="44,0,0,0" VerticalAlignment="Center"/>
 
     </Grid>
 </Page>

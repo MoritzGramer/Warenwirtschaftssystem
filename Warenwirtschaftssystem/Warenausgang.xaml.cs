@@ -29,10 +29,10 @@ namespace Warenwirtschaftssystem
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            //Die artikelNummer initalisiert und mit der Benutzereingabe aus der Textbox deklarasiert
+            //Die artikelNummer initalisiert und mit der Benutzereingabe aus der Textbox deklariert
             string artikelNummer = textbox_Artikelnummer.Text;
 
-            //Die Anzahl der eingegangen Stücke wird initialisiert und mit der Benutzereingabe aus der Textbox deklarasiert
+            //Die Anzahl der eingegangen Stücke wird initialisiert und mit der Benutzereingabe aus der Textbox deklariert
             string ausgehendeStückzahl_String = textbox_Stückzahl.Text;
 
             int aktuelleStückzahl = 0;
@@ -46,13 +46,15 @@ namespace Warenwirtschaftssystem
                 feedback.erstelleFehlermeldung("Bitte geben sie eine gültige Zahl als Stückzahl ein!");
             }
             else{
+
+                //Instanz der Klasse Datenbankverbindung wird erstellt
                 Datenbankverbindung connection = new Datenbankverbindung();
 
 
                 if (connection.setConnection())
                 {
                     //die aktuelle Stückzahl des Artikels wird abgefragt und in einer Variable gespeichert
-                    aktuelleStückzahl = int.Parse(connection.getStückzahlVonDatenbankFürArtikelnummer(artikelNummer));
+                    aktuelleStückzahl = int.Parse(connection.getLagerbestandVonDatenbankFürArtikelnummer(artikelNummer));
 
                     //die Anzahl der ausgehenden Artikel ist kleiner oder gleich groß wie die Anzahl der verfügbaren Artikel
                     if (aktuelleStückzahl - int.Parse(ausgehendeStückzahl_String) > 0)
@@ -61,13 +63,14 @@ namespace Warenwirtschaftssystem
                         int neueStückzahl = aktuelleStückzahl - int.Parse(ausgehendeStückzahl_String);
 
                         //updaten der Stückzahl in der Datenbank
-                        connection.setztNeueStückzahlFürArtikelnummer(artikelNummer, neueStückzahl);
+                        connection.setztNeuenLagerbestandFürArtikelnummer(artikelNummer, neueStückzahl);
+                        
                     }
                     //Es wird versucht mehr Waren rauszugeben, als im Lager sind
                     else
                     {
                         //Fehlermeldung anzeigen
-                        feedback.erstelleFehlermeldung("So viele Artikel sind nicht auf Lager!");
+                        feedback.erstelleFehlermeldung("Vorgang abgebrochen. Der Lagerbestand des Artikels mit der Artikelnummer " + artikelNummer + " beträgt nur " + aktuelleStückzahl +"!");
                     }
                 }
                 else

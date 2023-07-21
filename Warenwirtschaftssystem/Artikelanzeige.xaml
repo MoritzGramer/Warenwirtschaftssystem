@@ -17,13 +17,13 @@
         <TextBox HorizontalAlignment="Left" Margin="44,74,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="116" Height="40" TextChanged="TextBox_TextChanged" Name="eingabe_Artikelnummer" Grid.Row="1"/>
         <Label Content="Artikelnummer" HorizontalAlignment="Left" Margin="44,43,0,0" Grid.Row="1" VerticalAlignment="Top" Width="116"/>
         <Label Name="labelArtikelname" Content="Artikelname: " HorizontalAlignment="Left" Margin="44,24,0,0" VerticalAlignment="Top" Width="116"/>
-        <Label Name="labelPreis" Content="Preis: " HorizontalAlignment="Left" Margin="44,86,0,0" VerticalAlignment="Top" Width="116"/>
-        <Label Name="labelPreiszuschlag" Content="Preiszuschlag: " HorizontalAlignment="Left" Margin="240,86,0,0" VerticalAlignment="Top" Width="116"/>
-        <Label Name="labelRegal" Content="Regal: " HorizontalAlignment="Left" Margin="44,143,0,0" VerticalAlignment="Top" Width="116"/>
-        <Label Name="labelFach" Content="Fach: " HorizontalAlignment="Left" Margin="240,143,0,0" VerticalAlignment="Top" Width="116"/>
+        <Label Name="labelPreis" Content="Preis: " HorizontalAlignment="Left" Margin="44,72,0,0" VerticalAlignment="Top" Width="116"/>
+        <Label Name="labelPreiszuschlag" Content="Preiszuschlag: " HorizontalAlignment="Left" Margin="240,72,0,0" VerticalAlignment="Top" Width="116"/>
+        <Label Name="labelRegal" Content="Regal: " HorizontalAlignment="Left" Margin="44,129,0,0" VerticalAlignment="Top" Width="116"/>
+        <Label Name="labelFach" Content="Fach: " HorizontalAlignment="Left" Margin="240,129,0,0" VerticalAlignment="Top" Width="116"/>
 
-        <Label Name="labelArtikelbeschreibung" Content="Artikelbeschreibung:" HorizontalAlignment="Left" Margin="240,33,0,0" VerticalAlignment="Top" Width="412" Height="48"/>
-
+        <Label Name="labelArtikelbeschreibung" Content="Artikelbeschreibung:" HorizontalAlignment="Left" Margin="240,19,0,0" VerticalAlignment="Top" Width="412" Height="48"/>
+        <Label Name="labelReserviert" Content="Reserviert: " HorizontalAlignment="Left" Margin="44,173,0,0" VerticalAlignment="Top" Width="116"/>
 
     </Grid>
 </Page>

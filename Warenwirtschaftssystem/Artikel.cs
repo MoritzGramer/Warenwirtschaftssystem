@@ -19,10 +19,10 @@ namespace Warenwirtschaftssystem
         private int regal;
         private int fach;
         private string Datum;
-        private bool reserviert;
+        private string reserviert;
 
 
-        public Artikel(string artikelnummer, string artikelbeschreibung, string preis, int stückzahl, string preisaufschlag, int lagerId, int regal, int fach, string datum, bool reserviert)
+        public Artikel(string artikelnummer, string artikelbeschreibung, string preis, int stückzahl, string preisaufschlag, int lagerId, int regal, int fach, string datum, string reserviert)
         {
             this.Artikelnummer = artikelnummer;
             this.Artikelbeschreibung = artikelbeschreibung;
@@ -50,6 +50,6 @@ namespace Warenwirtschaftssystem
         public int Regal { get => regal; set => regal = value; }
         public int Fach { get => fach; set => fach = value; }
         public string Datum1 { get => Datum; set => Datum = value; }
-        public bool Reserviert { get => reserviert; set => reserviert = value; }
+        public string Reserviert { get => reserviert; set => reserviert = value; }
     }
 }

@@ -36,13 +36,35 @@ namespace Warenwirtschaftssystem
             string fach = textbox_Regal.Text;
             string stückzahl = textbox_Stückzahl.Text;
 
+            string reserviertString = "Nein";
+            bool istReserviert = (checkBoxReserviert.IsChecked == true);
+            if (istReserviert)
+            {
+                reserviertString = "Ja";
+            }
+
             string lagerId = "1";
 
             Datenbankverbindung verbindung = new Datenbankverbindung();
 
             verbindung.setConnection();
-            verbindung.fügeNeuenArtikelZurDatenbank(artikelnummer, artikelbeschreibung, preis, stückzahl, preisaufschlag, lagerId, regal, fach, false);
+            verbindung.fügeNeuenArtikelZurDatenbank(artikelnummer, artikelbeschreibung, preis, stückzahl, preisaufschlag, lagerId, regal, fach, reserviertString);
             verbindung.closeConnection();
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void checkBoxReserviert_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void textbox_Regal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
