@@ -20,8 +20,9 @@ namespace Warenwirtschaftssystem
             //das Hauptfenster(MainWindow.xaml.cs) wird in eine Variable gespeichert
             Window window = Application.Current.MainWindow;
 
-            //setzte die Schriftfarbe des labels auf rot
-            (window as MainWindow).label_Fehlermeldung.Foreground = brush;  // named colors
+            //setzte die Schriftfarbe des labels auf die Farbe
+            //welcher als Parameter übergeben wurde
+            (window as MainWindow).label_Fehlermeldung.Foreground = brush; 
 
             //Der Text des Fehlermeldelabes wird gändert
             (window as MainWindow).label_Fehlermeldung.Content = text;

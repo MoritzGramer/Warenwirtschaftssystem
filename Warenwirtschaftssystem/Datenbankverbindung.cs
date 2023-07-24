@@ -177,6 +177,9 @@ namespace Warenwirtschaftssystem
                 //der reader führt den Befehl aus
                 MySqlDataReader reader = command.ExecuteReader();
 
+                Feedback feed= new Feedback();
+                feed.erstelleErfolgsmeldung("Ein neuer Artikel wurde erfolgreich angelegt!");
+
                 //der Befehl wurde erfolgreich durchgeführt und true wird zurückgegeben
                 return true;
             }

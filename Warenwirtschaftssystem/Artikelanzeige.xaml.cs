@@ -51,7 +51,9 @@ namespace Warenwirtschaftssystem
                     labelPreiszuschlag.Content = "Preisaufschlag: " + artikel.Preisaufschlag;
                     labelFach.Content = "Fach: " + artikel.Fach;
                     labelRegal.Content = "Regal: " + artikel.Regal;
-                    labelReserviert.Content = "Reserviert: "+ artikel.Reserviert;   
+                    labelReserviert.Content = "Reserviert: "+ artikel.Reserviert;
+                    labelDatum.Content = "Eingangsdatum: " + artikel.Datum1;
+                    labelLagerbestand.Content = "Lagerbestand: " + artikel.Stückzahl;
 
                     feedback.erstelleErfolgsmeldung("Ausführen Erfolgreich!");
                 }

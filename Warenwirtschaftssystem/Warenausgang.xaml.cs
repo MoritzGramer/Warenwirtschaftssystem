@@ -50,7 +50,6 @@ namespace Warenwirtschaftssystem
                 //Instanz der Klasse Datenbankverbindung wird erstellt
                 Datenbankverbindung connection = new Datenbankverbindung();
 
-
                 if (connection.setConnection())
                 {
                     //die aktuelle Stückzahl des Artikels wird abgefragt und in einer Variable gespeichert

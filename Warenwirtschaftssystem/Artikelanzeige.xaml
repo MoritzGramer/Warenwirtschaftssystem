@@ -22,8 +22,10 @@
         <Label Name="labelRegal" Content="Regal: " HorizontalAlignment="Left" Margin="44,129,0,0" VerticalAlignment="Top" Width="116"/>
         <Label Name="labelFach" Content="Fach: " HorizontalAlignment="Left" Margin="240,129,0,0" VerticalAlignment="Top" Width="116"/>
 
-        <Label Name="labelArtikelbeschreibung" Content="Artikelbeschreibung:" HorizontalAlignment="Left" Margin="240,19,0,0" VerticalAlignment="Top" Width="412" Height="48"/>
+        <Label Name="labelArtikelbeschreibung" Content="Artikelbeschreibung:" HorizontalAlignment="Left" Margin="240,24,0,0" VerticalAlignment="Top" Width="412" Height="48"/>
         <Label Name="labelReserviert" Content="Reserviert: " HorizontalAlignment="Left" Margin="44,173,0,0" VerticalAlignment="Top" Width="116"/>
+        <Label Name="labelDatum"  Content="Eingangsdatum: " HorizontalAlignment="Left" Margin="240,173,0,0" VerticalAlignment="Top" Width="160"/>
+        <Label Name="labelLagerbestand" Content="Lagerbestand: " HorizontalAlignment="Left" Margin="400,72,0,0" VerticalAlignment="Top" Width="116"/>
 
     </Grid>
 </Page>
