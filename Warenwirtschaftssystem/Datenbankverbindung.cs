@@ -69,7 +69,7 @@ namespace Warenwirtschaftssystem
             //SQL Befehl, der den Lagerbestand eines Artikels anzeigt
             //Die Lagerbestand des Artikels muss größer 0 sein
             string commandString = "SELECT * FROM artikel " +
-                "WHERE artikelnummer LIKE "+input+ " AND Lagerbestand > 0"; 
+                "WHERE artikelnummer LIKE '"+input+ "' AND Lagerbestand > 0"; 
 
             //der string befel wird in einen SQL Command umgewandelt
             MySqlCommand command = new MySqlCommand(commandString, this.connection);
@@ -117,22 +117,31 @@ namespace Warenwirtschaftssystem
                     //SQL Befehl, der sich für eine bestimmte Artikelnummer
                     //den Lagerbestand von der Datenbank holt
                     string commandString = "SELECT Lagerbestand FROM artikel" +
-                        " Where Artikelnummer LIKE " + artikelNummer + "";
+                        " Where Artikelnummer LIKE '" + artikelNummer + "'";
 
-                    //SQl string Befehl wird umgewandelt in ein MySQLCommand
-                    MySqlCommand command = new MySqlCommand(commandString, this.connection);
-
-                    //der SQL Befehl wird ausgeführt und die Informationen werden
-                    MySqlDataReader reader = command.ExecuteReader();
-
-                    //solange sich weitere Informationen in dem Objekt reader befinden
-                    while (reader.Read() && reader.HasRows)
+                    try
                     {
-                        //die Stückzahl wird zu dem string output addiert
-                        output += reader.GetValue(0);
+                        //SQl string Befehl wird umgewandelt in ein MySQLCommand
+                        MySqlCommand command = new MySqlCommand(commandString, this.connection);
+
+                        //der SQL Befehl wird ausgeführt und die Informationen werden
+                        MySqlDataReader reader = command.ExecuteReader();
+
+                        //solange sich weitere Informationen in dem Objekt reader befinden
+                        while (reader.Read() && reader.HasRows)
+                        {
+                            //die Stückzahl wird zu dem string output addiert
+                            output += reader.GetValue(0);
+                        }
+                        //der reader wird geschlossen
+                        reader.Close();
                     }
-                    //der reader wird geschlossen
-                    reader.Close();
+                    catch(Exception e)
+                    {
+
+                    }
+
+                    
                 }
            
             }

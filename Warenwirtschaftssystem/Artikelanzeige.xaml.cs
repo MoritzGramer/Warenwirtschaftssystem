@@ -43,7 +43,7 @@ namespace Warenwirtschaftssystem
                 Artikel artikel = connection.gebeArtikelFürArtikelnummerZurück(artikelnummer);
 
                 //es wurde ein Artikel mit der eingegeben Artikelnummer gefunden und zurückgegeben
-                if (artikel != null)
+                if (artikel.Artikelnummer != null)
                 {
                     labelArtikelname.Content = "Artikelnummer: " + artikel.Artikelnummer;
                     labelArtikelbeschreibung.Content = "Artikelbeschreibung: " + artikel.Artikelbeschreibung;

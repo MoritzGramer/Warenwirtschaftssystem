@@ -37,7 +37,10 @@ namespace Warenwirtschaftssystem
 
             int aktuelleStückzahl = 0;
 
+            //Quelle https://stackoverflow.com/questions/894263/identify-if-a-string-is-a-number visited: 12.07.23
             bool isNumeric = int.TryParse(ausgehendeStückzahl_String, out int num);
+            //Quelle Ende
+
             Feedback feedback = new Feedback();
 
             //die eingegbene Stückzahl ist keine Zahl
