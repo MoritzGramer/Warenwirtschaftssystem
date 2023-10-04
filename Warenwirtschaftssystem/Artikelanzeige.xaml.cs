@@ -26,6 +26,12 @@ namespace Warenwirtschaftssystem
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+            
+
+
+
+
             //artikelnummer wird initialisiert und mit Benutzereingabe deklarasiert
             string artikelnummer = eingabe_Artikelnummer.Text;
 
